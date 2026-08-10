@@ -1,0 +1,76 @@
+# Frappe generated/runtime files
+frappe-bench/sites/*
+!frappe-bench/sites/apps.txt
+!frappe-bench/sites/apps.json
+!frappe-bench/sites/common_site_config.json
+
+frappe-bench/sites/assets/
+frappe-bench/sites/*/public/
+frappe-bench/sites/*/private/
+frappe-bench/sites/*/locks/
+frappe-bench/sites/*/indexes/
+frappe-bench/sites/*/logs/
+frappe-bench/sites/*/backup/
+frappe-bench/sites/*/tijarat.local/
+frappe-bench/sites/*/site_config.json
+
+# Node/Python dependencies
+**/node_modules/
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+
+# Build/generated files
+frappe-bench/sites/assets/
+frappe-bench/apps/*/frontend/dist/
+frappe-bench/apps/*/dist/
+frappe-bench/apps/*/build/
+frappe-bench/apps/*/public/build/
+frappe-bench/apps/*/banking/node_modules/
+frappe-bench/apps/*/roster/node_modules/
+
+# Logs
+*.log
+logs/
+
+# Local environment/secrets
+.env
+.env.*
+!.env.example
+
+# Frappe configuration generated for this server
+frappe-bench/config/nginx.conf.backup
+frappe-bench/sites/common_site_config.json
+
+# Bench runtime
+frappe-bench/config/pids/
+frappe-bench/config/redis_*.pid
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python virtual environment
+frappe-bench/env/
+
+# Bench generated/cache files
+frappe-bench/.bench/
+frappe-bench/logs/
+frappe-bench/config/pids/
+frappe-bench/config/supervisor.conf
+frappe-bench/config/supervisor.conf.backup
+
+# Frappe generated assets/cache
+frappe-bench/sites/assets/
+frappe-bench/sites/*/public/files/
+frappe-bench/sites/*/private/files/
+
+# Frontend generated files
+**/.vite/
+**/.cache/
+**/coverage/
+**/.parcel-cache/
