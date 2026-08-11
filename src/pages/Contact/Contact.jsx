@@ -8,6 +8,7 @@ import Button from '../../components/ui/Button';
 import { useToast } from '../../components/ui/Toast';
 import SectionHeading from '../../components/marketing/SectionHeading';
 import { usePageTitle } from '../../hooks/usePageTitle';
+import { sendFormSubmission } from '../../services/forms';
 
 const CONTACT_CARDS = [
   { icon: Mail, title: 'Email us', value: 'support@tijaratapp.com' },
@@ -25,18 +26,28 @@ export default function Contact() {
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await sendFormSubmission({
+        subject: `New contact form message from ${form.name}`,
+        name: form.name,
+        email: form.email,
+        company: form.company,
+        message: form.message,
+      });
       setForm(initialForm);
       addToast({
         variant: 'success',
         title: 'Message sent',
         description: 'Thanks for reaching out — we will get back to you shortly.',
       });
-    }, 700);
+    } catch (err) {
+      addToast({ variant: 'danger', title: 'Could not send message', description: err.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

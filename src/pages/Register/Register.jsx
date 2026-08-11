@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, Factory, Globe, Layers, PartyPopper, Store, Truck } from 'lucide-react';
 
@@ -7,8 +7,10 @@ import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
 import Textarea from '../../components/ui/Textarea';
+import Alert from '../../components/ui/Alert';
 import { usePageTitle } from '../../hooks/usePageTitle';
 import { cn } from '../../utils/cn';
+import { registerTradeParty } from '../../services/api';
 
 const ROLES = [
   {
@@ -99,20 +101,38 @@ function Stepper({ step }) {
 
 export default function Register() {
   usePageTitle('Create your account');
+  const [searchParams] = useSearchParams();
+  const preselectedRole = searchParams.get('role');
+
   const [step, setStep] = useState(0);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(ROLES.some((r) => r.value === preselectedRole) ? preselectedRole : '');
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await registerTradeParty({
+        party_type: role,
+        business_name: form.businessName,
+        owner_name: form.ownerName,
+        phone: form.phone,
+        email: form.email,
+        city: form.city,
+        address: form.address,
+        detail: form.detail,
+      });
       setStep(3);
-    }, 900);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const roleInfo = ROLES.find((r) => r.value === role);
@@ -125,7 +145,7 @@ export default function Register() {
           Create your Tijarat account
         </h1>
         <p className="mt-2 text-neutral-500 dark:text-neutral-400">
-          Frontend preview — this form isn't wired to a backend yet.
+          Takes about two minutes. We'll verify your details before activating your account.
         </p>
       </div>
 
@@ -292,6 +312,12 @@ export default function Register() {
                 By submitting, your details are sent for verification. A team member (or your field officer)
                 will confirm your account before you can place your first order.
               </p>
+
+              {error && (
+                <Alert variant="danger" className="mt-4" onDismiss={() => setError('')}>
+                  {error}
+                </Alert>
+              )}
 
               <div className="mt-6 flex justify-between">
                 <Button variant="outline" onClick={() => setStep(1)}>

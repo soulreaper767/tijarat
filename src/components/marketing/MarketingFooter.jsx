@@ -5,6 +5,7 @@ import { LOGISTICS_SERVICES, PLATFORM_APPS } from '../../data/marketing';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import { useToast } from '../ui/Toast';
+import { sendFormSubmission } from '../../services/forms';
 
 const COLUMNS = [
   {
@@ -25,15 +26,29 @@ const COLUMNS = [
   },
 ];
 
+const LEGAL_LINKS = [
+  { label: 'Privacy Policy', to: '/privacy' },
+  { label: 'Terms of Service', to: '/terms' },
+];
+
 export default function MarketingFooter() {
   const { addToast } = useToast();
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     if (!email) return;
-    addToast({ variant: 'success', title: 'Subscribed', description: 'We’ll keep you posted on Tijarat updates.' });
-    setEmail('');
+    setLoading(true);
+    try {
+      await sendFormSubmission({ subject: 'New newsletter signup', email });
+      addToast({ variant: 'success', title: 'Subscribed', description: 'We’ll keep you posted on Tijarat updates.' });
+      setEmail('');
+    } catch (err) {
+      addToast({ variant: 'danger', title: 'Could not subscribe', description: err.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -118,9 +133,22 @@ export default function MarketingFooter() {
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-neutral-200 pt-8 sm:flex-row sm:items-center sm:justify-between dark:border-neutral-800">
-          <p className="text-xs text-neutral-400 dark:text-neutral-500">
-            © {new Date().getFullYear()} Sibyl Technologies. All rights reserved.
-          </p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <p className="text-xs text-neutral-400 dark:text-neutral-500">
+              © {new Date().getFullYear()} Sibyl Technologies. All rights reserved.
+            </p>
+            <div className="flex items-center gap-3">
+              {LEGAL_LINKS.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="text-xs text-neutral-400 hover:text-primary-600 dark:text-neutral-500 dark:hover:text-primary-400"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
 
           <form onSubmit={handleSubscribe} className="flex w-full max-w-sm items-center gap-2">
             <Input
@@ -131,7 +159,7 @@ export default function MarketingFooter() {
               containerClassName="flex-1"
               aria-label="Email address"
             />
-            <Button type="submit" size="md" icon={Send} aria-label="Subscribe" />
+            <Button type="submit" size="md" icon={Send} aria-label="Subscribe" loading={loading} />
           </form>
         </div>
       </div>

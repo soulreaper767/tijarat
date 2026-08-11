@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import {
   ArrowRight,
   BadgeCheck,
+  Check,
   MapPin,
   MapPinned,
   MessageCircle,
   Radar,
+  ShoppingBag,
   Sparkles,
   Truck,
 } from 'lucide-react';
@@ -19,6 +21,7 @@ import FeatureCard from '../../components/marketing/FeatureCard';
 import Carousel from '../../components/marketing/Carousel';
 import TrustScoreGauge from '../../components/marketing/TrustScoreGauge';
 import AIChatMock from '../../components/marketing/AIChatMock';
+import EcommerceFulfillmentMock from '../../components/marketing/EcommerceFulfillmentMock';
 import {
   HOW_IT_WORKS_STEPS,
   LOGISTICS_SERVICES,
@@ -199,6 +202,71 @@ export default function Home() {
             </motion.div>
           ))}
         </motion.div>
+      </section>
+
+      {/* E-commerce Fulfillment spotlight */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary-600 dark:bg-primary-500/15 dark:text-primary-400">
+              <ShoppingBag size={13} />
+              E-commerce Fulfillment
+            </span>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
+              Not on the trade network? We'll still run your warehouse floor
+            </h2>
+            <p className="mt-4 text-neutral-500 dark:text-neutral-400">
+              Online sellers don't need distributors, wholesalers or territories — they need orders picked,
+              packed and shipped, fast. Fulfillment runs on the same warehousing and delivery infrastructure
+              as the rest of Tijarat, sold on its own as fulfillment-as-a-service.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {[
+                'Plug in Shopify, Daraz, or your own storefront',
+                'Same-day pick, pack & ship cutoffs',
+                'Real-time inventory across every warehouse',
+                'Returns handled through the same network',
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2.5 text-sm text-neutral-700 dark:text-neutral-200">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-400">
+                    <Check size={12} />
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <Link to="/register?role=ecommerce">
+                <Button iconRight={ArrowRight}>Get started as an online seller</Button>
+              </Link>
+              <Link
+                to="/services#ecommerce-fulfillment"
+                className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-400"
+              >
+                See how it works
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-lg dark:border-neutral-800 dark:bg-neutral-900">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-neutral-400">
+                Today's fulfillment queue
+              </p>
+              <EcommerceFulfillmentMock />
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Capabilities */}

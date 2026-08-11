@@ -7,6 +7,9 @@ import HowItWorks from './pages/HowItWorks/HowItWorks.jsx';
 import About from './pages/About/About.jsx';
 import Register from './pages/Register/Register.jsx';
 import Contact from './pages/Contact/Contact.jsx';
+import Privacy from './pages/Privacy/Privacy.jsx';
+import Terms from './pages/Terms/Terms.jsx';
+import NotFound from './pages/NotFound/NotFound.jsx';
 import Login from './pages/Login/Login.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import Sales from './pages/Sales/Sales.jsx';
@@ -29,7 +32,10 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
         <Route path="/login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
 
       <Route path="/design-system" element={<DesignSystem />} />

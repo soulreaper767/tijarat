@@ -3,17 +3,33 @@ import { useNavigate } from 'react-router-dom';
 import { Lock, Mail } from 'lucide-react';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
+import Alert from '../../components/ui/Alert';
 import { usePageTitle } from '../../hooks/usePageTitle';
+import { login } from '../../services/api';
+
+const initialForm = { email: '', password: '' };
 
 export default function Login() {
   usePageTitle('Sign in');
   const navigate = useNavigate();
+  const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
-    setTimeout(() => navigate('/app'), 600);
+    try {
+      await login(form);
+      navigate('/app');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -29,6 +45,12 @@ export default function Login() {
         </div>
 
         <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+          {error && (
+            <Alert variant="danger" className="mb-4" onDismiss={() => setError('')}>
+              {error}
+            </Alert>
+          )}
+
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Input
               name="email"
@@ -37,6 +59,8 @@ export default function Login() {
               placeholder="you@tijarat.com"
               icon={Mail}
               required
+              value={form.email}
+              onChange={update('email')}
             />
             <Input
               name="password"
@@ -45,6 +69,8 @@ export default function Login() {
               placeholder="••••••••"
               icon={Lock}
               required
+              value={form.password}
+              onChange={update('password')}
             />
 
             <div className="flex items-center justify-end">

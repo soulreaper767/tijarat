@@ -7,6 +7,7 @@ import Badge from '../../components/ui/Badge';
 import DeviceFrame from '../../components/marketing/DeviceFrame';
 import SectionHeading from '../../components/marketing/SectionHeading';
 import FeatureCard from '../../components/marketing/FeatureCard';
+import EcommerceFulfillmentMock from '../../components/marketing/EcommerceFulfillmentMock';
 import { LOGISTICS_SERVICES, PLATFORM_APPS, PLATFORM_CAPABILITIES } from '../../data/marketing';
 import { usePageTitle } from '../../hooks/usePageTitle';
 
@@ -236,23 +237,6 @@ function CourierNetworkMock() {
             <span className="tabular-nums text-neutral-900 dark:text-neutral-100">{row.rate}</span>
             {row.best && <Badge variant="primary">Booked</Badge>}
           </span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function EcommerceFulfillmentMock() {
-  return (
-    <div className="grid grid-cols-3 gap-2">
-      {[
-        { stage: 'Picking', count: 6 },
-        { stage: 'Packing', count: 3 },
-        { stage: 'Shipped', count: 21 },
-      ].map((col) => (
-        <div key={col.stage} className="rounded-lg border border-neutral-100 p-3 text-center dark:border-neutral-800">
-          <p className="text-2xl font-bold tabular-nums text-neutral-900 dark:text-neutral-100">{col.count}</p>
-          <p className="mt-1 text-[11px] text-neutral-400">{col.stage}</p>
         </div>
       ))}
     </div>

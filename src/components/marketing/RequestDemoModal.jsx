@@ -4,11 +4,14 @@ import Input from '../ui/Input';
 import Select from '../ui/Select';
 import Button from '../ui/Button';
 import { useToast } from '../ui/Toast';
+import { sendFormSubmission } from '../../services/forms';
 
 const ROLE_OPTIONS = [
+  { value: 'retailer', label: 'Retailer / Trader' },
+  { value: 'wholesaler', label: 'Wholesaler' },
   { value: 'distributor', label: 'Distributor' },
   { value: 'manufacturer', label: 'Manufacturer' },
-  { value: 'retailer', label: 'Retailer / Trader' },
+  { value: 'ecommerce', label: 'E-commerce Business' },
   { value: 'other', label: 'Something else' },
 ];
 
@@ -21,11 +24,17 @@ export default function RequestDemoModal({ open, onClose }) {
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await sendFormSubmission({
+        subject: `New demo request from ${form.name} (${form.company})`,
+        name: form.name,
+        company: form.company,
+        email: form.email,
+        role: ROLE_OPTIONS.find((r) => r.value === form.role)?.label || form.role,
+      });
       setForm(initialForm);
       onClose();
       addToast({
@@ -33,7 +42,11 @@ export default function RequestDemoModal({ open, onClose }) {
         title: 'Request received',
         description: 'Someone from our team will reach out within one business day.',
       });
-    }, 700);
+    } catch (err) {
+      addToast({ variant: 'danger', title: 'Could not send request', description: err.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
