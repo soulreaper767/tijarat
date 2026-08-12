@@ -1,8 +1,21 @@
+import { useNavigate } from 'react-router-dom';
 import { ChevronDown, LogOut, Settings, UserCircle } from 'lucide-react';
 import Avatar from '../ui/Avatar';
 import Dropdown from '../ui/Dropdown';
+import { useAuth } from '../../hooks/useAuth.jsx';
 
-export default function UserMenu({ name = 'Nabeel Munawar', role = 'Admin' }) {
+export default function UserMenu() {
+  const { user, roles, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const name = user?.full_name || user?.user || 'Account';
+  const role = roles[0] || 'User';
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login', { replace: true });
+  };
+
   return (
     <Dropdown
       align="right"
@@ -19,10 +32,10 @@ export default function UserMenu({ name = 'Nabeel Munawar', role = 'Admin' }) {
         </button>
       }
       items={[
-        { label: 'Profile', icon: UserCircle },
-        { label: 'Settings', icon: Settings },
+        { label: 'Profile', icon: UserCircle, onClick: () => navigate('/app/settings') },
+        { label: 'Settings', icon: Settings, onClick: () => navigate('/app/settings') },
         { type: 'divider' },
-        { label: 'Log out', icon: LogOut, danger: true },
+        { label: 'Log out', icon: LogOut, danger: true, onClick: handleLogout },
       ]}
     />
   );

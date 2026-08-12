@@ -1,12 +1,27 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import Sidebar from '../components/layout/Sidebar';
 import Topbar from '../components/layout/Topbar';
+import Spinner from '../components/ui/Spinner';
+import { useAuth } from '../hooks/useAuth.jsx';
 import { cn } from '../utils/cn';
 
 export default function AppLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { loading, isAuthenticated } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-neutral-50 dark:bg-neutral-950">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-neutral-50 dark:bg-neutral-950">

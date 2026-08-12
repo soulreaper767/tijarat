@@ -12,6 +12,7 @@ import {
   Warehouse,
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { useAuth } from '../../hooks/useAuth.jsx';
 
 const NAV_ITEMS = [
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -20,11 +21,16 @@ const NAV_ITEMS = [
   { to: '/app/distributors', label: 'Distributors', icon: Truck },
   { to: '/app/products', label: 'Products', icon: Package },
   { to: '/app/inventory', label: 'Inventory', icon: Warehouse },
-  { to: '/app/finance', label: 'Finance', icon: Wallet },
+  // Finance carries payment/ledger data - admin-only nav item, per the
+  // architecture doc's role/permission matrix (Section 3).
+  { to: '/app/finance', label: 'Finance', icon: Wallet, adminOnly: true },
   { to: '/app/reports', label: 'Reports', icon: BarChart3 },
 ];
 
 export default function Sidebar({ collapsed = false, onToggleCollapse, onNavigate, className }) {
+  const { isAdmin } = useAuth();
+  const items = NAV_ITEMS.filter((item) => !item.adminOnly || isAdmin);
+
   return (
     <aside
       className={cn(
@@ -65,7 +71,7 @@ export default function Sidebar({ collapsed = false, onToggleCollapse, onNavigat
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-        {NAV_ITEMS.map((item) => (
+        {items.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}

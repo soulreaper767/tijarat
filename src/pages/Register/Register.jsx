@@ -45,8 +45,11 @@ const ROLES = [
   },
 ];
 
+// Values must match Territory names exactly (case-sensitive) - the backend
+// does a direct Territory lookup by this string, falling back to creating a
+// new leaf Territory under the root if the city doesn't exist yet.
 const CITY_OPTIONS = ['Lahore', 'Karachi', 'Islamabad', 'Faisalabad', 'Multan', 'Peshawar'].map((c) => ({
-  value: c.toLowerCase(),
+  value: c,
   label: c,
 }));
 
@@ -60,6 +63,8 @@ const initialForm = {
   city: '',
   address: '',
   detail: '',
+  password: '',
+  confirmPassword: '',
 };
 
 const ROLE_DETAIL = {
@@ -115,17 +120,28 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (form.password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
     setLoading(true);
     try {
       await registerTradeParty({
-        party_type: role,
-        business_name: form.businessName,
-        owner_name: form.ownerName,
-        phone: form.phone,
-        email: form.email,
+        party_name: form.businessName,
+        contact_person: form.ownerName,
+        mobile_no: form.phone,
+        email: form.email || undefined,
         city: form.city,
         address: form.address,
-        detail: form.detail,
+        business_type: role,
+        password: form.password,
+        registration_channel: 'Self',
       });
       setStep(3);
     } catch (err) {
@@ -274,6 +290,29 @@ export default function Register() {
                 value={form.address}
                 onChange={update('address')}
               />
+
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Input
+                  id="password"
+                  name="password"
+                  label="Password"
+                  type="password"
+                  hint="At least 8 characters"
+                  minLength={8}
+                  required
+                  value={form.password}
+                  onChange={update('password')}
+                />
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  label="Confirm password"
+                  type="password"
+                  required
+                  value={form.confirmPassword}
+                  onChange={update('confirmPassword')}
+                />
+              </div>
 
               <div className="mt-6 flex justify-between">
                 <Button type="button" variant="outline" onClick={() => setStep(0)}>

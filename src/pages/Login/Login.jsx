@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, Mail } from 'lucide-react';
+import { Lock, User } from 'lucide-react';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import Alert from '../../components/ui/Alert';
 import { usePageTitle } from '../../hooks/usePageTitle';
-import { login } from '../../services/api';
+import { loginWithIdentifier } from '../../services/api';
+import { useAuth } from '../../hooks/useAuth.jsx';
 
-const initialForm = { email: '', password: '' };
+const initialForm = { identifier: '', password: '' };
 
 export default function Login() {
   usePageTitle('Sign in');
   const navigate = useNavigate();
+  const { refresh } = useAuth();
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -23,7 +25,8 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      await login(form);
+      await loginWithIdentifier(form);
+      await refresh();
       navigate('/app');
     } catch (err) {
       setError(err.message);
@@ -53,14 +56,14 @@ export default function Login() {
 
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Input
-              name="email"
-              label="Email"
-              type="email"
-              placeholder="you@tijarat.com"
-              icon={Mail}
+              name="identifier"
+              label="Email or Mobile Number"
+              type="text"
+              placeholder="you@tijarat.com or 03001234567"
+              icon={User}
               required
-              value={form.email}
-              onChange={update('email')}
+              value={form.identifier}
+              onChange={update('identifier')}
             />
             <Input
               name="password"
