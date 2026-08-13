@@ -34,48 +34,14 @@ apiClient.interceptors.response.use(
   (error) => Promise.reject(new Error(readErrorMessage(error)))
 );
 
-// Native Frappe login - `usr` must be an email-shaped identifier (staff
-// accounts created directly in ERPNext have a real one).
-export async function login({ email, password }) {
-  const { data } = await apiClient.post('/method/login', { usr: email, pwd: password });
-  return data;
-}
-
-// Retailers/distributors/manufacturers registered via registerTradeParty
-// think of their phone number as their identity, not the synthetic email
-// behind it - this resolves + authenticates by mobile number server-side.
-export async function loginWithMobile({ mobileNo, password }) {
-  const { data } = await apiClient.post('/method/tijarat_app.api.registration.login_with_mobile', {
-    mobile_no: mobileNo,
-    password,
-  });
-  return data.message;
-}
-
-const MOBILE_LIKE = /^[+0-9][0-9\s-]{6,}$/;
-
-// One login form serves both audiences: staff sign in with their email,
-// everyone registered through the marketplace signs in with their phone
-// number - this picks the right call from the shape of what was typed.
-export async function loginWithIdentifier({ identifier, password }) {
-  const trimmed = identifier.trim();
-  if (MOBILE_LIKE.test(trimmed)) {
-    return loginWithMobile({ mobileNo: trimmed, password });
-  }
-  return login({ email: trimmed, password });
-}
+// Registration and login are handled by native pages served directly by the
+// backend (tijarat_app/www/register.html, login.html) — same-origin with
+// its own API, so they don't go through this cross-origin axios client at
+// all. See src/utils/portal.js.
 
 export async function logout() {
   const { data } = await apiClient.post('/method/logout');
   return data;
-}
-
-// Maps to the whitelisted `register_trade_party` Frappe method (see the
-// architecture doc, Section 3.4) — creates the Customer, Supplier, Party
-// Link, Contact and portal User in one call.
-export async function registerTradeParty(payload) {
-  const { data } = await apiClient.post('/method/tijarat_app.api.registration.register_trade_party', payload);
-  return data.message;
 }
 
 // Who's logged in, what roles they hold, and which Customer/Supplier record

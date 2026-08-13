@@ -6,6 +6,7 @@ import Button from '../../components/ui/Button';
 import SectionHeading from '../../components/marketing/SectionHeading';
 import { HOW_IT_WORKS_STEPS } from '../../data/marketing';
 import { usePageTitle } from '../../hooks/usePageTitle';
+import { getPortalRegisterUrl } from '../../utils/portal';
 
 export default function HowItWorks() {
   usePageTitle('How it works');
@@ -67,11 +68,11 @@ export default function HowItWorks() {
           Want to see it on your own data?
         </h2>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/register">
+          <a href={getPortalRegisterUrl()}>
             <Button size="lg" iconRight={ArrowRight}>
               Get started
             </Button>
-          </Link>
+          </a>
           <Link to="/services">
             <Button size="lg" variant="outline">
               Explore our services

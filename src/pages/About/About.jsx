@@ -6,6 +6,7 @@ import SectionHeading from '../../components/marketing/SectionHeading';
 import FeatureCard from '../../components/marketing/FeatureCard';
 import AnimatedStat from '../../components/marketing/AnimatedStat';
 import { usePageTitle } from '../../hooks/usePageTitle';
+import { getPortalRegisterUrl } from '../../utils/portal';
 
 const PRINCIPLES = [
   {
@@ -81,11 +82,11 @@ export default function About() {
           Building it with us is one form away
         </h2>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/register">
+          <a href={getPortalRegisterUrl()}>
             <Button size="lg" iconRight={ArrowRight}>
               Get started
             </Button>
-          </Link>
+          </a>
           <Link to="/contact">
             <Button size="lg" variant="outline">
               Contact us

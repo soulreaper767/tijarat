@@ -10,6 +10,7 @@ import FeatureCard from '../../components/marketing/FeatureCard';
 import EcommerceFulfillmentMock from '../../components/marketing/EcommerceFulfillmentMock';
 import { LOGISTICS_SERVICES, PLATFORM_APPS, PLATFORM_CAPABILITIES } from '../../data/marketing';
 import { usePageTitle } from '../../hooks/usePageTitle';
+import { getPortalRegisterUrl } from '../../utils/portal';
 
 function RetailerMock() {
   return (
@@ -394,11 +395,11 @@ export default function Services() {
           Register a business, or talk to us first — either way, we'll walk you through it.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/register">
+          <a href={getPortalRegisterUrl()}>
             <Button size="lg" iconRight={ArrowRight}>
               Get started
             </Button>
-          </Link>
+          </a>
           <Link to="/contact">
             <Button size="lg" variant="outline">
               Talk to us

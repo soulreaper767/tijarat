@@ -3,6 +3,7 @@ import { ChevronDown, LogOut, Settings, UserCircle } from 'lucide-react';
 import Avatar from '../ui/Avatar';
 import Dropdown from '../ui/Dropdown';
 import { useAuth } from '../../hooks/useAuth.jsx';
+import { getPortalLoginUrl } from '../../utils/portal';
 
 export default function UserMenu() {
   const { user, roles, logout } = useAuth();
@@ -13,7 +14,7 @@ export default function UserMenu() {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/login', { replace: true });
+    window.location.href = getPortalLoginUrl();
   };
 
   return (

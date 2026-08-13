@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { LogOut, ShieldCheck, UserCircle } from 'lucide-react';
 
 import PageHeader from '../../components/layout/PageHeader';
@@ -8,15 +7,15 @@ import Badge from '../../components/ui/Badge';
 import Button from '../../components/ui/Button';
 import { usePageTitle } from '../../hooks/usePageTitle';
 import { useAuth } from '../../hooks/useAuth.jsx';
+import { getPortalLoginUrl } from '../../utils/portal';
 
 export default function Settings() {
   usePageTitle('Settings');
   const { user, roles, isAdmin, logout } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
-    navigate('/login', { replace: true });
+    window.location.href = getPortalLoginUrl();
   };
 
   return (

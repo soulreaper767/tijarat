@@ -18,6 +18,7 @@ import Hero3D from '../../components/marketing/Hero3D';
 import SectionHeading from '../../components/marketing/SectionHeading';
 import AnimatedStat from '../../components/marketing/AnimatedStat';
 import FeatureCard from '../../components/marketing/FeatureCard';
+import { getPortalRegisterUrl } from '../../utils/portal';
 import Carousel from '../../components/marketing/Carousel';
 import TrustScoreGauge from '../../components/marketing/TrustScoreGauge';
 import AIChatMock from '../../components/marketing/AIChatMock';
@@ -78,11 +79,11 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link to="/register">
+              <a href={getPortalRegisterUrl()}>
                 <Button size="lg" iconRight={ArrowRight}>
                   Get started
                 </Button>
-              </Link>
+              </a>
               <Button size="lg" variant="outline" onClick={openDemo}>
                 Request a demo
               </Button>
@@ -241,9 +242,9 @@ export default function Home() {
               ))}
             </ul>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Link to="/register?role=ecommerce">
+              <a href={getPortalRegisterUrl('ecommerce')}>
                 <Button iconRight={ArrowRight}>Get started as an online seller</Button>
-              </Link>
+              </a>
               <Link
                 to="/services#ecommerce-fulfillment"
                 className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-400"
@@ -497,11 +498,11 @@ export default function Home() {
             away.
           </p>
           <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link to="/register">
+            <a href={getPortalRegisterUrl()}>
               <Button size="lg" variant="secondary">
                 Get started
               </Button>
-            </Link>
+            </a>
             <Button size="lg" variant="inverse" onClick={openDemo}>
               Request a demo
             </Button>

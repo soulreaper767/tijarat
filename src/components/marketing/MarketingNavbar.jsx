@@ -6,6 +6,7 @@ import { LOGISTICS_SERVICES, PLATFORM_APPS, PLATFORM_CAPABILITIES } from '../../
 import { useTheme } from '../../hooks/useTheme';
 import Button from '../ui/Button';
 import { cn } from '../../utils/cn';
+import { getPortalLoginUrl, getPortalRegisterUrl } from '../../utils/portal';
 
 const ABOUT_LINK = { to: '/about', label: 'About' };
 const NAV_LINKS = [
@@ -158,14 +159,14 @@ export default function MarketingNavbar({ onRequestDemo }) {
           <Button variant="ghost" size="sm" onClick={onRequestDemo}>
             Request a demo
           </Button>
-          <Link to="/login">
+          <a href={getPortalLoginUrl()}>
             <Button variant="outline" size="sm">
               Log in
             </Button>
-          </Link>
-          <Link to="/register">
+          </a>
+          <a href={getPortalRegisterUrl()}>
             <Button size="sm">Get started</Button>
-          </Link>
+          </a>
         </div>
 
         <button
@@ -269,14 +270,14 @@ export default function MarketingNavbar({ onRequestDemo }) {
               </div>
 
               <div className="mt-4 flex shrink-0 flex-col gap-2">
-                <Link to="/login" onClick={() => setMobileOpen(false)}>
+                <a href={getPortalLoginUrl()} onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" fullWidth>
                     Log in
                   </Button>
-                </Link>
-                <Link to="/register" onClick={() => setMobileOpen(false)}>
+                </a>
+                <a href={getPortalRegisterUrl()} onClick={() => setMobileOpen(false)}>
                   <Button fullWidth>Get started</Button>
-                </Link>
+                </a>
               </div>
             </motion.div>
           </motion.div>
