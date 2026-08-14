@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../hooks/useAuth.jsx';
+import TijaratMark from '../ui/TijaratMark';
 
 const NAV_ITEMS = [
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -45,13 +46,13 @@ export default function Sidebar({ collapsed = false, onToggleCollapse, onNavigat
         )}
       >
         {collapsed ? (
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-sm font-bold text-white">
-            T
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white">
+            <TijaratMark className="h-5 w-5" />
           </span>
         ) : (
           <span className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-sm font-bold text-white">
-              T
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white">
+              <TijaratMark className="h-5 w-5" />
             </span>
             <span className="text-base font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
               Tijarat
