@@ -4,7 +4,7 @@ import { Globe, Mail, MessageCircle, Send } from 'lucide-react';
 import { LOGISTICS_SERVICES, PLATFORM_APPS } from '../../data/marketing';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import TijaratMark from '../ui/TijaratMark';
+import tijaratLogo from '../../assets/tijarat-logo.png';
 import { useToast } from '../ui/Toast';
 import { sendFormSubmission } from '../../services/forms';
 
@@ -58,9 +58,7 @@ export default function MarketingFooter() {
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-6">
           <div className="col-span-2 sm:col-span-3 lg:col-span-2">
             <Link to="/" className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white">
-                <TijaratMark className="h-5 w-5" />
-              </span>
+              <img src={tijaratLogo} alt="Tijarat" className="h-8 w-8 rounded-lg" />
               <span className="text-base font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
                 Tijarat
               </span>
