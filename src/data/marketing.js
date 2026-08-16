@@ -4,13 +4,17 @@ import {
   Boxes,
   Factory,
   Forklift,
+  HeartPulse,
   Lock,
   PackageCheck,
   Route,
   Send,
   ShieldCheck,
   ShoppingBag,
+  ShoppingBasket,
   ShoppingCart,
+  Shirt,
+  Sofa,
   Sparkles,
   Store,
   Truck,
@@ -214,6 +218,45 @@ export const PLATFORM_CAPABILITIES = [
     tagline: 'An assistant, never a black box.',
     description:
       'Voice ordering in Urdu/Punjabi, natural-language WhatsApp orders, ticket triage, sell-through narratives and a plain-language "ask your data" panel — always advisory, never blocking a transaction.',
+  },
+];
+
+export const INDUSTRIES = [
+  {
+    slug: 'food-beverage',
+    name: 'Food, Beverage & FMCG',
+    icon: ShoppingBasket,
+    items: [
+      'FMCG & Grocery',
+      'Beverages',
+      'Confectionery & Snacks',
+      'Dairy & Frozen Foods',
+      'HORECA & Foodservice',
+    ],
+  },
+  {
+    slug: 'fashion-textile',
+    name: 'Fashion & Textile',
+    icon: Shirt,
+    items: ['Textile & Apparel', 'Footwear', 'Leather Goods', 'Fashion Accessories'],
+  },
+  {
+    slug: 'health-beauty',
+    name: 'Health & Beauty',
+    icon: HeartPulse,
+    items: ['Pharmaceuticals & Healthcare', 'Cosmetics & Personal Care', 'Medical Equipment & Supplies'],
+  },
+  {
+    slug: 'industrial-manufacturing',
+    name: 'Industrial & Manufacturing',
+    icon: Factory,
+    items: ['Automobile & Auto Parts', 'Engineering & Hardware', 'Plastics', 'Packaging Materials', 'Chemicals'],
+  },
+  {
+    slug: 'home-lifestyle',
+    name: 'Home & Lifestyle',
+    icon: Sofa,
+    items: ['Furniture & Home Decor', 'Electronics & Appliances', 'Sports & Fitness Equipment', 'Stationery & Office Supplies'],
   },
 ];
 

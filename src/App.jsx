@@ -3,6 +3,7 @@ import MarketingLayout from './layouts/MarketingLayout.jsx';
 import AppLayout from './layouts/AppLayout.jsx';
 import Home from './pages/Home/Home.jsx';
 import Services from './pages/Services/Services.jsx';
+import Industries from './pages/Industries/Industries.jsx';
 import HowItWorks from './pages/HowItWorks/HowItWorks.jsx';
 import About from './pages/About/About.jsx';
 import Contact from './pages/Contact/Contact.jsx';
@@ -26,6 +27,7 @@ function App() {
       <Route element={<MarketingLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/industries" element={<Industries />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

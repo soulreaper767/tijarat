@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, Menu, Moon, Sun, X } from 'lucide-react';
-import { LOGISTICS_SERVICES, PLATFORM_APPS, PLATFORM_CAPABILITIES } from '../../data/marketing';
+import { INDUSTRIES, LOGISTICS_SERVICES, PLATFORM_APPS, PLATFORM_CAPABILITIES } from '../../data/marketing';
 import { useTheme } from '../../hooks/useTheme';
 import Button from '../ui/Button';
 import tijaratLogo from '../../assets/tijarat-logo.png';
@@ -26,8 +26,10 @@ const navLinkClass = ({ isActive }) =>
 export default function MarketingNavbar({ onRequestDemo }) {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [industriesOpen, setIndustriesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef(null);
+  const closeIndustriesTimer = useRef(null);
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -43,6 +45,14 @@ export default function MarketingNavbar({ onRequestDemo }) {
   };
   const scheduleClose = () => {
     closeTimer.current = setTimeout(() => setServicesOpen(false), 150);
+  };
+
+  const openIndustriesMenu = () => {
+    clearTimeout(closeIndustriesTimer.current);
+    setIndustriesOpen(true);
+  };
+  const scheduleCloseIndustries = () => {
+    closeIndustriesTimer.current = setTimeout(() => setIndustriesOpen(false), 150);
   };
 
   return (
@@ -132,6 +142,53 @@ export default function MarketingNavbar({ onRequestDemo }) {
                         <cap.icon size={13} />
                         {cap.name}
                       </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="relative" onMouseEnter={openIndustriesMenu} onMouseLeave={scheduleCloseIndustries}>
+            <button
+              type="button"
+              className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
+            >
+              Industries
+              <ChevronDown size={14} className={cn('transition-transform', industriesOpen && 'rotate-180')} />
+            </button>
+
+            <AnimatePresence>
+              {industriesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute left-0 top-full mt-2 w-[820px] rounded-2xl border border-neutral-200 bg-white p-5 shadow-xl dark:border-neutral-800 dark:bg-neutral-900"
+                >
+                  <div className="grid grid-cols-3 gap-x-6 gap-y-5">
+                    {INDUSTRIES.map((category) => (
+                      <div key={category.slug}>
+                        <Link
+                          to={`/industries#${category.slug}`}
+                          onClick={() => setIndustriesOpen(false)}
+                          className="mb-1.5 flex items-center gap-1.5 px-2.5 text-xs font-semibold uppercase tracking-wide text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400"
+                        >
+                          <category.icon size={13} />
+                          {category.name}
+                        </Link>
+                        {category.items.map((item) => (
+                          <Link
+                            key={item}
+                            to={`/industries#${category.slug}`}
+                            onClick={() => setIndustriesOpen(false)}
+                            className="block rounded-lg px-2.5 py-1.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 dark:text-neutral-200 dark:hover:bg-neutral-800"
+                          >
+                            {item}
+                          </Link>
+                        ))}
+                      </div>
                     ))}
                   </div>
                 </motion.div>
@@ -252,6 +309,31 @@ export default function MarketingNavbar({ onRequestDemo }) {
                     <service.icon size={16} className="text-neutral-400" />
                     {service.name}
                   </Link>
+                ))}
+
+                <div className="my-3 h-px bg-neutral-200 dark:bg-neutral-800" />
+
+                {INDUSTRIES.map((category) => (
+                  <div key={category.slug}>
+                    <Link
+                      to={`/industries#${category.slug}`}
+                      onClick={() => setMobileOpen(false)}
+                      className="mb-1.5 mt-3 flex items-center gap-1.5 px-2 text-xs font-semibold uppercase tracking-wide text-neutral-400"
+                    >
+                      <category.icon size={14} />
+                      {category.name}
+                    </Link>
+                    {category.items.map((item) => (
+                      <Link
+                        key={item}
+                        to={`/industries#${category.slug}`}
+                        onClick={() => setMobileOpen(false)}
+                        className="block rounded-lg px-2 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-800"
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </div>
                 ))}
 
                 <div className="my-3 h-px bg-neutral-200 dark:bg-neutral-800" />
